@@ -1,0 +1,118 @@
+/* src/global.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Theme (custom fonts, colors, container) */
+@theme {
+  --font-inter: "Inter", sans-serif;
+
+  --color-lwsGreen: #00d991;
+  --color-deepDark: #17181c;
+  --color-mediumDark: #1e1f24;
+  --color-lighterDark: #27292f;
+
+  --container-center: true;
+  --container-padding: 1rem;
+
+  --flex-center :bg-deepDark font-inter text-gray-100;
+  --btn-primary :  flex-center gap-2 rounded-md bg-lighterDark px-5 py-2.5 text-sm font-medium text-white hover:bg-deepDark lg:text-lg;
+}
+
+@layer components {
+  .flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-inter);
+  background-color: var(--color-deepDark);
+  /* optional spacing if needed */
+  padding: var(--spacing-2);
+  }
+  .btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2_5) var(--spacing-5); /* py-2.5 px-5 */
+  font-family: var(--font-inter);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-white);
+  background-color: var(--color-lighterDark);
+  transition: background-color 0.3s ease;
+
+  /* Hover state */
+  cursor: pointer;
+}
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-1_5);
+  font-weight: var(--font-medium);
+  color: var(--color-white);
+  background-color: var(--color-lighterDark);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+.card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-borderGray);
+  background-color: var(--color-mediumDark);
+  padding: var(--spacing-4);
+}
+.form-control {
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2_5);
+}
+.auth-label {
+  line-height: var(--leading-138);
+}
+.auth-input {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-borderLight);
+  background-color: var(--color-lighterDark);
+  padding: var(--spacing-1_5);
+  outline: none;
+}
+
+.auth-input:focus {
+  outline: none;
+}
+.post-avater {
+  max-width: 2.5rem; /* 10 */
+  max-height: 2.5rem;
+  border-radius: var(--radius-full);
+}
+.action-modal-container {
+  position: absolute;
+  top: var(--spacing-6);
+  right: 100%;
+  min-width: 200px;
+
+  /* card styles merged */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-borderGray);
+  background-color: var(--color-mediumDark);
+  padding-top: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+
+  display: flex;
+  flex-direction: column;
+}
+.action-menu-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+  color: var(--color-gray-100);
+  transition: all 0.2s ease;
+}
+}
+
