@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
 
       <p>Home page</p>
-<Link to="/me">Profile Page</Link>
+<Link to="/me">Go toProfile Page</Link>
     </div>
   )
 }
