@@ -1,43 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../hooks/useAuth';
-import { useAxios } from '../hooks/useAxios';
+import { useEffect } from "react";
+import { actions } from "../actions";
+import { useAuth } from "../hooks/useAuth";
+import {useAxios} from "../hooks/useAxios";
+import { useProfile } from "../hooks/useProfile";
 
-export default function ProfilePage() {
-  const [user,setUser] = useState(null);
-  const [posts,setPosts] = useState([]);
-  const [loading,setLoading] = useState(false);
-  const [error,setError] = useState(null);
+import MyPosts from "../components/profile/MyPosts";
+import ProfileInfo from "../components/profile/ProfileInfo";
 
-  const {auth} = useAuth();
-  const {api} = useAxios();
+const ProfilePage = () => {
+    const { state, dispatch } = useProfile();
+    const { api } = useAxios();
+    const { auth } = useAuth();
 
-  useEffect(()=>{
-    setLoading(true);
-const fetchProfile = async () =>{
+    useEffect(() => {
+        dispatch({ type: actions.profile.DATA_FETCHING });
+        const fetchProfile = async () => {
+            try {
+                const response = await api.get(
+                    `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${
+                        auth?.user?.id
+                    }`
+                );
+                if (response.status === 200) {
+                    dispatch({
+                        type: actions.profile.DATA_FETCHED,
+                        data: response.data,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: actions.profile.DATA_FETCH_ERROR,
+                    error: err.message,
+                });
+            }
+        };
 
-  try{
-const response =await api.get(`${import.meta.env.VITE_SERVER_BASE_URL}/profile/${auth?.user?.id}`)
+        fetchProfile();
+    }, []);
 
-setUser(response?.data.user);
-setPosts(response?.data.posts)
-  }catch(err){
-console.error(err)
-setError(error)
-  }finally{
-    setLoading(false);
-  }
-}
-fetchProfile();
-  },[])
+    if (state?.loading) {
+        return <div> Fetching your Profile data...</div>;
+    }
 
-if(loading){
-  return <div>Fetching your profile data....</div>
-}
+    return (
+        <>
+            <ProfileInfo />
+            <MyPosts />
+        </>
+    );
+};
 
-  return (
-    <div>
-      Welcome ,{user?.firstName} { ' '} {user?.lastName}
-      <p>You have {posts.length} posts</p>
-    </div>
-  )
-}
+export default ProfilePage;
